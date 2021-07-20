@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    volumes:
+      - config:/config:z
+      - ./videos:/media/videos:ro
+      - ./bin/Debug/net5.0/HappyMovie.dll:/config/plugins/HappyMovie/HappyMovie.dll:ro
+    ports:
+      - 127.0.0.1:8896:8096
+
+volumes:
+  config:
