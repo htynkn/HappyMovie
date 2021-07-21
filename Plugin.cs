@@ -7,7 +7,6 @@ using MediaBrowser.Model.Serialization;
 
 namespace Jellyfin.Plugin.HappyMovie
 {
-
     public class Plugin : BasePlugin<PluginConfiguration>
     {
         public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer) : base(applicationPaths, xmlSerializer) { }

@@ -7,6 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Jellyfin.Controller" Version="10.*-*" />
     <PackageReference Include="Jellyfin.Model" Version="10.*-*" />
+    <PackageReference Include="TMDbLib" Version="1.8.1" />
+    <PackageReference Include="Yove.Proxy" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

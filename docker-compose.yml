@@ -5,8 +5,9 @@ services:
     image: jellyfin/jellyfin:latest
     volumes:
       - config:/config:z
-      - ./videos:/media/videos:ro
+      - ./videos:/media/videos
       - ./bin/Debug/net5.0/HappyMovie.dll:/config/plugins/HappyMovie/HappyMovie.dll:ro
+      - ~/.nuget/packages/yove.proxy/1.1.1/lib/netstandard2.0/Yove.Proxy.dll:/config/plugins/HappyMovie/Yove.Proxy.dll:ro
     ports:
       - 127.0.0.1:8896:8096
 
