@@ -2,22 +2,22 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion> 
-           <Authors>htynkn@gmail.com</Authors>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <Authors>htynkn@gmail.com</Authors>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jellyfin.Controller" Version="10.*-*"/>
-        <PackageReference Include="Jellyfin.Model" Version="10.*-*"/>
-        <PackageReference Include="TMDbLib" Version="1.8.1"/>
-        <PackageReference Include="Yove.Proxy" Version="1.1.1"/>
+        <PackageReference Include="Jellyfin.Controller" Version="10.*-*" />
+        <PackageReference Include="Jellyfin.Model" Version="10.*-*" />
+        <PackageReference Include="TMDbLib" Version="1.8.1" />
+        <PackageReference Include="Yove.Proxy" Version="1.1.1" />
     </ItemGroup>
 
 
-<ItemGroup>
-    <None Remove="Configuration\configPage.html" />
-    <EmbeddedResource Include="Configuration\configPage.html" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Configuration\configPage.html" />
+        <EmbeddedResource Include="Configuration\configPage.html" />
+    </ItemGroup>
 
 </Project>
