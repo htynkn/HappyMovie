@@ -7,9 +7,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Jellyfin.Data.Entities.Libraries;
+using Jellyfin.Plugin.HappyMovie.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Entities;
+using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
 using TMDbLib.Client;
@@ -45,12 +47,14 @@ namespace Jellyfin.Plugin.HappyMovie
             var tmdbId = Convert.ToInt32(searchInfo.GetProviderId(MediaBrowser.Model.Entities.MetadataProvider.Tmdb), CultureInfo.InvariantCulture);
             Console.WriteLine($"current tmdbId is {tmdbId} for {searchInfo.Name}");
 
+            PluginConfiguration options = Plugin.Instance.Configuration;
+
             var results = new List<RemoteSearchResult>();
 
             if (tmdbId == 0)
             {
                 ProxyClient proxyClient = new ProxyClient("172.16.2.22", 1080, ProxyType.Socks5);
-                TMDbClient client = new TMDbClient("4219e299c89411838049ab0dab19ebd5", proxy: proxyClient);
+                TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
 
                 Console.WriteLine($"start search");
                 SearchContainer<SearchMovie> movies = client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage).Result;
