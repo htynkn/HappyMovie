@@ -18,7 +18,7 @@ namespace Jellyfin.Plugin.HappyMovie
 {
     public class MovieImageProvider : IRemoteImageProvider
     {
-        public string Name => "HappyMovie";
+        public string Name => Utils.ProviderName;
 
         public async Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
         {
@@ -44,10 +44,7 @@ namespace Jellyfin.Plugin.HappyMovie
             }
             else
             {
-                PluginConfiguration options = Plugin.Instance.Configuration;
-
-                ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
-                TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
+                TMDbClient client = Utils.GetTmdbClient();
 
                 TMDbLib.Objects.General.ImagesWithId result = client.GetMovieImagesAsync(tmdbId, language: item.GetPreferredMetadataLanguage()).Result;
 
@@ -63,14 +60,14 @@ namespace Jellyfin.Plugin.HappyMovie
 
                 remoteImages.Add(new RemoteImageInfo
                 {
-                    Url = $"https://image.tmdb.org/t/p/w500/{movie.PosterPath}",
+                    Url = $"${Utils.ImageUrlPrefix}{movie.PosterPath}",
                     ProviderName = Name,
                     Type = ImageType.Primary,
                 });
 
                 remoteImages.Add(new RemoteImageInfo
                 {
-                    Url = $"https://image.tmdb.org/t/p/w500/{movie.PosterPath}",
+                    Url = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
                     ProviderName = Name,
                     Type = ImageType.Backdrop,
                 });

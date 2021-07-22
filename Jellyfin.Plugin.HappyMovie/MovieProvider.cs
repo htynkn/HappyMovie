@@ -26,7 +26,7 @@ namespace Jellyfin.Plugin.HappyMovie
 {
     public class MovieProvider : IRemoteMetadataProvider<MediaBrowser.Controller.Entities.Movies.Movie, MediaBrowser.Controller.Providers.MovieInfo>
     {
-        public string Name => "HappyMovie";
+        public string Name => Utils.ProviderName;
         private readonly ILogger<MovieProvider> _logger;
         private readonly ILibraryManager _libraryManager;
 
@@ -56,10 +56,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             Console.WriteLine($"get meta tmdbId is {tmdbId} for {info.Name}");
 
-            PluginConfiguration options = Plugin.Instance.Configuration;
-
-            ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
-            TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
+            TMDbClient client = Utils.GetTmdbClient();
 
             if (string.IsNullOrEmpty(tmdbId))
             {
@@ -111,8 +108,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             var results = new List<RemoteSearchResult>();
 
-            ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
-            TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
+            TMDbClient client = Utils.GetTmdbClient();
 
             if (tmdbId == 0)
             {
@@ -124,7 +120,7 @@ namespace Jellyfin.Plugin.HappyMovie
                     var remoteSearchResult = new RemoteSearchResult
                     {
                         Name = searchMovie.Title,
-                        ImageUrl = $"https://image.tmdb.org/t/p/w500/{movie.PosterPath}",
+                        ImageUrl = $"${Utils.ImageUrlPrefix}{movie.PosterPath}",
                         Overview = searchMovie.Overview,
                         SearchProviderName = Name
                     };
@@ -151,7 +147,7 @@ namespace Jellyfin.Plugin.HappyMovie
                 var remoteSearchResult = new RemoteSearchResult
                 {
                     Name = movie.Title,
-                    ImageUrl = $"https://image.tmdb.org/t/p/w500/{movie.PosterPath}",
+                    ImageUrl = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
                     Overview = movie.Overview,
                     SearchProviderName = Name
                 };

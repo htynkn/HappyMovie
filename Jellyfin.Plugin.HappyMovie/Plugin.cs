@@ -14,7 +14,7 @@ namespace Jellyfin.Plugin.HappyMovie
         {
             Instance = this;
         }
-        public override string Name => "HappyMovie";
+        public override string Name => Utils.ProviderName;
         public override Guid Id => Guid.Parse("a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62");
 
         public static Plugin Instance { get; private set; }
