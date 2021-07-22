@@ -11,11 +11,7 @@ namespace Jellyfin.Plugin.HappyMovie.Configuration
 
         public ProxyType Type { get; set; } = ProxyType.NON_PROXY;
 
-        public enum ProxyType
-        {
-            NON_PROXY = 0,
-            HTTP = 1
-        }
+       
 
 
     }
