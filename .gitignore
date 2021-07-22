@@ -4,3 +4,5 @@ obj/
 videos/*.mp4
 videos/*.flv
 videos/*.nfo
+videos/*.jpg
+videos/*.png

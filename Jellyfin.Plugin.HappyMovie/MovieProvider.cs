@@ -20,6 +20,7 @@ using Yove.Proxy;
 using MediaBrowser.Model.Entities;
 using MetadataProvider = MediaBrowser.Model.Entities.MetadataProvider;
 using MediaBrowser.Controller.Entities.Movies;
+using MediaBrowser.Controller.Library;
 
 namespace Jellyfin.Plugin.HappyMovie
 {
@@ -27,61 +28,78 @@ namespace Jellyfin.Plugin.HappyMovie
     {
         public string Name => "HappyMovie";
         private readonly ILogger<MovieProvider> _logger;
+        private readonly ILibraryManager _libraryManager;
 
-
-        public MovieProvider(IApplicationPaths appPaths, ILogger<MovieProvider> logger)
+        public MovieProvider(IApplicationPaths appPaths, ILogger<MovieProvider> logger, ILibraryManager libraryManager)
         {
             _logger = logger;
+            _libraryManager = libraryManager;
         }
 
-        public Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
+        public async Task<HttpResponseMessage> GetImageResponse(string url, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine($"get image for {url}");
+
+            PluginConfiguration options = Plugin.Instance.Configuration;
+
+            ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
+
+            HttpClientHandler handler = new HttpClientHandler { Proxy = proxyClient };
+            HttpClient client = new HttpClient(handler);
+
+            return await client.GetAsync(new Uri(url), cancellationToken);
         }
 
         public async Task<MetadataResult<MediaBrowser.Controller.Entities.Movies.Movie>> GetMetadata(MovieInfo info, CancellationToken cancellationToken)
         {
             var tmdbId = info.GetProviderId(MetadataProvider.Tmdb);
 
+            Console.WriteLine($"get meta tmdbId is {tmdbId} for {info.Name}");
+
+            PluginConfiguration options = Plugin.Instance.Configuration;
+
+            ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
+            TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
+
             if (string.IsNullOrEmpty(tmdbId))
             {
-                return null;
-            }
-            else
-            {
-                PluginConfiguration options = Plugin.Instance.Configuration;
+                var parsedName = _libraryManager.ParseName(info.Name);
 
+                SearchContainer<SearchMovie> movies = client.SearchMovieAsync(parsedName.Name, language: info.MetadataLanguage).Result;
 
-                ProxyClient proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
-                TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
-
-                TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId, language: info.MetadataLanguage).Result;
-
-                var m = new Movie
+                if (movies.TotalPages > 0)
                 {
-                    Name = movie.Title,
-                    Overview = movie.Overview?.Replace("\n\n", "\n", StringComparison.InvariantCulture),
-                    Tagline = movie.Tagline
-                };
-
-                var metadataResult = new MetadataResult<Movie>
-                {
-                    HasMetadata = true,
-                    ResultLanguage = info.MetadataLanguage,
-                    Item = m
-                };
-
-                m.SetProviderId(MetadataProvider.Tmdb, movie.Id.ToString());
-                m.PremiereDate = movie.ReleaseDate;
-                m.ProductionYear = movie.ReleaseDate?.Year;
-
-                foreach (var genre in movie.Genres.Select(g => g.Name))
-                {
-                    m.AddGenre(genre);
+                    tmdbId = movies.Results[0].Id.ToString();
+                    Console.WriteLine($"get metadata with search to become id: {tmdbId} for name: {parsedName}");
                 }
-
-                return metadataResult;
             }
+
+            TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId, language: info.MetadataLanguage).Result;
+
+            var m = new Movie
+            {
+                Name = movie.Title,
+                Overview = movie.Overview?.Replace("\n\n", "\n", StringComparison.InvariantCulture),
+                Tagline = movie.Tagline
+            };
+
+            var metadataResult = new MetadataResult<Movie>
+            {
+                HasMetadata = true,
+                ResultLanguage = info.MetadataLanguage,
+                Item = m
+            };
+
+            m.SetProviderId(MetadataProvider.Tmdb, movie.Id.ToString());
+            m.PremiereDate = movie.ReleaseDate;
+            m.ProductionYear = movie.ReleaseDate?.Year;
+
+            foreach (var genre in movie.Genres.Select(g => g.Name))
+            {
+                m.AddGenre(genre);
+            }
+
+            return metadataResult;
         }
 
         public async Task<IEnumerable<RemoteSearchResult>> GetSearchResults(MovieInfo searchInfo, CancellationToken cancellationToken)
@@ -98,9 +116,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             if (tmdbId == 0)
             {
-                Console.WriteLine($"start search");
                 SearchContainer<SearchMovie> movies = client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage).Result;
-                Console.WriteLine($"find movies with size:${movies.TotalPages}");
 
                 foreach (SearchMovie searchMovie in movies.Results)
                 {
@@ -126,6 +142,11 @@ namespace Jellyfin.Plugin.HappyMovie
             else
             {
                 TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId, language: searchInfo.MetadataLanguage).Result;
+
+                if (movie == null)
+                {
+                    return Enumerable.Empty<RemoteSearchResult>();
+                }
 
                 var remoteSearchResult = new RemoteSearchResult
                 {
