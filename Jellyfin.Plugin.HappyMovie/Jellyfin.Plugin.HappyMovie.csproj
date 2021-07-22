@@ -5,6 +5,7 @@
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <FileVersion>1.0.0.0</FileVersion>
         <Authors>htynkn@gmail.com</Authors>
+        <PackageIcon>thumb.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
