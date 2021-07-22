@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HappyMovie</title>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>HappyMovie</title>
-</head>
-
-<body>
-  <div id="HappyMovieConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
-    data-require="emby-input,emby-button,emby-select,emby-checkbox">
-    <div data-role="content">
-      <div class="content-primary">
-        <form id="HappyMovieConfigForm">
-          <div class="inputContainer">
-            <label class="inputeLabel inputLabelUnfocused" for="ApiKey">Api Key</label>
-            <input id="ApiKey" name="ApiKey" type="text" is="emby-input" />
-            <div class="fieldDescription">Api key to access the movie db.</div>
-          </div>
-          <div>
-            <button is="emby-button" type="submit" class="raised button-submit block emby-button">
-              <span>Save</span>
-            </button>
-          </div>
-        </form>
+  <body>
+    <div
+      id="HappyMovieConfigPage"
+      data-role="page"
+      class="page type-interior pluginConfigurationPage"
+      data-require="emby-input,emby-button,emby-select,emby-checkbox"
+    >
+      <div data-role="content">
+        <div class="content-primary">
+          <form id="HappyMovieConfigForm">
+            <div class="inputContainer">
+              <label class="inputeLabel inputLabelUnfocused" for="ApiKey"
+                >Api Key</label
+              >
+              <input id="ApiKey" name="ApiKey" type="text" is="emby-input" />
+              <div class="fieldDescription">
+                Api key to access the movie db.
+              </div>
+            </div>
+            <div class="inputContainer">
+              <label class="inputeLabel inputLabelUnfocused" for="ProxyHost"
+                >Proxy Host</label
+              >
+              <input
+                id="ProxyHost"
+                name="ProxyHost"
+                type="text"
+                is="emby-input"
+              />
+              <div class="fieldDescription">Proxy server host</div>
+            </div>
+            <div>
+              <button
+                is="emby-button"
+                type="submit"
+                class="raised button-submit block emby-button"
+              >
+                <span>Save</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-    <script type="text/javascript">
-      var HappyMovieConfig = {
-        pluginUniqueId: 'a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62'
-      };
+      <script type="text/javascript">
+        var HappyMovieConfig = {
+          pluginUniqueId: "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
+        };
 
-      document.querySelector('#HappyMovieConfigPage')
-        .addEventListener('pageshow', function () {
-          Dashboard.showLoadingMsg();
-          ApiClient.getPluginConfiguration(HappyMovieConfig.pluginUniqueId).then(function (config) {
-            document.querySelector('#ApiKey').value = config.ApiKey;
-            Dashboard.hideLoadingMsg();
-          });
-        });
+        document
+          .querySelector("#HappyMovieConfigPage")
+          .addEventListener("pageshow", function () {
+            Dashboard.showLoadingMsg();
 
-      document.querySelector('#HappyMovieConfigForm')
-        .addEventListener('submit', function () {
-          Dashboard.showLoadingMsg();
-          ApiClient.getPluginConfiguration(HappyMovieConfig.pluginUniqueId).then(function (config) {
-            config.ApiKey = document.querySelector('#ApiKey').value;
-            ApiClient.updatePluginConfiguration(HappyMovieConfig.pluginUniqueId, config).then(function (result) {
+            ApiClient.getPluginConfiguration(
+              HappyMovieConfig.pluginUniqueId
+            ).then(function (config) {
+              document.querySelector("#ApiKey").value = config.ApiKey;
+              document.querySelector("#ProxyHost").value = config.ProxyHost;
               Dashboard.hideLoadingMsg();
             });
           });
 
+        $("#HappyMovieConfigForm").on("submit", function () {
+          Dashboard.showLoadingMsg();
+
+          ApiClient.getPluginConfiguration(
+            HappyMovieConfig.pluginUniqueId
+          ).then(function (config) {
+            config.ApiKey = document.querySelector("#ApiKey").value;
+            config.ProxyHost = document.querySelector("#ProxyHost").value;
+
+            ApiClient.updatePluginConfiguration(
+              HappyMovieConfig.pluginUniqueId,
+              config
+            ).then(Dashboard.processPluginConfigurationUpdateResult);
+          });
+
           return false;
         });
-    </script>
-  </div>
-</body>
-
+      </script>
+    </div>
+  </body>
 </html>
