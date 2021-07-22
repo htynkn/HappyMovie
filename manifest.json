@@ -1,0 +1,12 @@
+[
+  {
+    "category": "Metadata",
+    "guid": "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
+    "name": "HappyMovie",
+    "description": "Get metadata from tmdb.",
+    "owner": "htynkn",
+    "overview": "Get metadata from tmdb.",
+    "imageURL": "https://raw.githubusercontent.com/JavScraper/Emby.Plugins.JavScraper/master/Emby.Plugins.JavScraper/thumb.png",
+    "versions": []
+  }
+]
