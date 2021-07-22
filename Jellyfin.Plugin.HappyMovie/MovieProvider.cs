@@ -120,7 +120,7 @@ namespace Jellyfin.Plugin.HappyMovie
                     var remoteSearchResult = new RemoteSearchResult
                     {
                         Name = searchMovie.Title,
-                        ImageUrl = $"${Utils.ImageUrlPrefix}{movie.PosterPath}",
+                        ImageUrl = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
                         Overview = searchMovie.Overview,
                         SearchProviderName = Name
                     };

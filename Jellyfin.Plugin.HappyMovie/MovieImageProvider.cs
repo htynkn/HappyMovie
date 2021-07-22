@@ -60,7 +60,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
                 remoteImages.Add(new RemoteImageInfo
                 {
-                    Url = $"${Utils.ImageUrlPrefix}{movie.PosterPath}",
+                    Url = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
                     ProviderName = Name,
                     Type = ImageType.Primary,
                 });
