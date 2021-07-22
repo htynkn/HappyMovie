@@ -17,7 +17,6 @@ using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
 using Yove.Proxy;
-using MediaBrowser.Model.Entities;
 using MetadataProvider = MediaBrowser.Model.Entities.MetadataProvider;
 using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Library;
@@ -75,10 +74,31 @@ namespace Jellyfin.Plugin.HappyMovie
 
             var m = new Movie
             {
-                Name = movie.Title,
+                Name = movie.Title ?? movie.OriginalTitle,
                 Overview = movie.Overview?.Replace("\n\n", "\n", StringComparison.InvariantCulture),
                 Tagline = movie.Tagline
             };
+
+            if (movie.ReleaseDate != null)
+            {
+                var releaseDate = movie.ReleaseDate.Value.ToUniversalTime();
+                m.PremiereDate = releaseDate;
+                m.ProductionYear = releaseDate.Year;
+            }
+
+            m.SetProviderId(MetadataProvider.Tmdb, movie.Id.ToString());
+            if (movie.BelongsToCollection != null)
+            {
+                m.SetProviderId(MetadataProvider.TmdbCollection, movie.BelongsToCollection.Id.ToString(CultureInfo.InvariantCulture));
+                m.CollectionName = movie.BelongsToCollection.Name;
+            }
+
+            m.CommunityRating = Convert.ToSingle(movie.VoteAverage);
+
+            foreach (var genre in movie.Genres.Select(g => g.Name))
+            {
+                m.AddGenre(genre);
+            }
 
             var metadataResult = new MetadataResult<Movie>
             {
@@ -86,15 +106,6 @@ namespace Jellyfin.Plugin.HappyMovie
                 ResultLanguage = info.MetadataLanguage,
                 Item = m
             };
-
-            m.SetProviderId(MetadataProvider.Tmdb, movie.Id.ToString());
-            m.PremiereDate = movie.ReleaseDate;
-            m.ProductionYear = movie.ReleaseDate?.Year;
-
-            foreach (var genre in movie.Genres.Select(g => g.Name))
-            {
-                m.AddGenre(genre);
-            }
 
             return metadataResult;
         }

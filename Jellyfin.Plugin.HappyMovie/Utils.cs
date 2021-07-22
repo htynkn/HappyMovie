@@ -24,6 +24,10 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
             }
+            else if (options.Type == HappyMovieProxyType.SOCKS5)
+            {
+                proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Socks5);
+            }
             else
             {
                 Console.WriteLine("Unknown proxy type, will use directly connection");

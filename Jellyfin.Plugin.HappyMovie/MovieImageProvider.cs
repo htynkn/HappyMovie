@@ -46,7 +46,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 TMDbClient client = Utils.GetTmdbClient();
 
-                TMDbLib.Objects.General.ImagesWithId result = client.GetMovieImagesAsync(tmdbId, language: item.GetPreferredMetadataLanguage()).Result;
+                TMDbLib.Objects.General.ImagesWithId result = client.GetMovieImagesAsync(tmdbId).Result;
 
                 if (result == null)
                 {
@@ -56,21 +56,26 @@ namespace Jellyfin.Plugin.HappyMovie
                 var remoteImages = new List<RemoteImageInfo>();
 
 
-                TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId).Result;
-
-                remoteImages.Add(new RemoteImageInfo
+                result.Backdrops.ForEach(x =>
                 {
-                    Url = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
-                    ProviderName = Name,
-                    Type = ImageType.Primary,
+                    remoteImages.Add(new RemoteImageInfo
+                    {
+                        Url = $"{Utils.ImageUrlPrefix}{x.FilePath}",
+                        ProviderName = Name,
+                        Type = ImageType.Backdrop,
+                    });
                 });
 
-                remoteImages.Add(new RemoteImageInfo
+                result.Posters.ForEach(x =>
                 {
-                    Url = $"{Utils.ImageUrlPrefix}{movie.PosterPath}",
-                    ProviderName = Name,
-                    Type = ImageType.Backdrop,
+                    remoteImages.Add(new RemoteImageInfo
+                    {
+                        Url = $"{Utils.ImageUrlPrefix}{x.FilePath}",
+                        ProviderName = Name,
+                        Type = ImageType.Primary,
+                    });
                 });
+
                 Console.WriteLine($"Find image with size: {remoteImages.Count}");
                 return remoteImages;
             }
