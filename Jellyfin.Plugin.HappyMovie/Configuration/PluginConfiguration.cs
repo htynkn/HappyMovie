@@ -9,9 +9,9 @@ namespace Jellyfin.Plugin.HappyMovie.Configuration
         public string ProxyHost { get; set; } = "127.0.0.1";
         public int ProxyPort { get; set; } = 8118;
 
-        public ProxyType Type { get; set; } = ProxyType.NON_PROXY;
+        public HappyMovieProxyType Type { get; set; } = HappyMovieProxyType.NON_PROXY;
 
-       
+
 
 
     }

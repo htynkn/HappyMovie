@@ -1,6 +1,7 @@
 using TMDbLib.Client;
 using Yove.Proxy;
 using Jellyfin.Plugin.HappyMovie.Configuration;
+using System;
 
 namespace Jellyfin.Plugin.HappyMovie
 {
@@ -15,17 +16,17 @@ namespace Jellyfin.Plugin.HappyMovie
             PluginConfiguration options = Plugin.Instance.Configuration;
             ProxyClient proxyClient = null;
 
-            if (options.Type == ProxyType.NON_PROXY)
+            if (options.Type == HappyMovieProxyType.NON_PROXY)
             {
                 proxyClient = null;
             }
-            else if (options.Type == ProxyType.HTTP)
+            else if (options.Type == HappyMovieProxyType.HTTP)
             {
                 proxyClient = new ProxyClient(options.ProxyHost, options.ProxyPort, ProxyType.Http);
             }
             else
             {
-                Console.log("Unknown proxy type, will use directly connection");
+                Console.WriteLine("Unknown proxy type, will use directly connection");
             }
 
             TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
