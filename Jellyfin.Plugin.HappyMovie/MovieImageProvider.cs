@@ -46,7 +46,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 TMDbClient client = Utils.GetTmdbClient();
 
-                TMDbLib.Objects.General.ImagesWithId result = client.GetMovieImagesAsync(tmdbId).Result;
+                TMDbLib.Objects.General.ImagesWithId result = await client.GetMovieImagesAsync(tmdbId);
 
                 if (result == null)
                 {

@@ -61,7 +61,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 var parsedName = _libraryManager.ParseName(info.Name);
 
-                TMDbLib.Objects.General.SearchContainer<SearchTv> tvs = client.SearchTvShowAsync(parsedName.Name, language: info.MetadataLanguage).Result;
+                TMDbLib.Objects.General.SearchContainer<SearchTv> tvs = await client.SearchTvShowAsync(parsedName.Name, language: info.MetadataLanguage);
 
                 if (tvs.TotalPages > 0)
                 {
@@ -70,7 +70,7 @@ namespace Jellyfin.Plugin.HappyMovie
                 }
             }
 
-            var tvShow = client.GetTvShowAsync(Convert.ToInt32(tmdbId), language: info.MetadataLanguage).Result;
+            var tvShow = await client.GetTvShowAsync(Convert.ToInt32(tmdbId), language: info.MetadataLanguage);
 
             if (tvShow == null)
             {
@@ -135,11 +135,11 @@ namespace Jellyfin.Plugin.HappyMovie
 
             if (tmdbId == 0)
             {
-                TMDbLib.Objects.General.SearchContainer<TMDbLib.Objects.Search.SearchTv> result = client.SearchTvShowAsync(searchInfo.Name, language: searchInfo.MetadataLanguage).Result;
+                TMDbLib.Objects.General.SearchContainer<TMDbLib.Objects.Search.SearchTv> result = await client.SearchTvShowAsync(searchInfo.Name, language: searchInfo.MetadataLanguage);
 
                 foreach (SearchTv searchTv in result.Results)
                 {
-                    TMDbLib.Objects.TvShows.TvShow tvShow = client.GetTvShowAsync(searchTv.Id, language: searchInfo.MetadataLanguage).Result;
+                    TMDbLib.Objects.TvShows.TvShow tvShow = await client.GetTvShowAsync(searchTv.Id, language: searchInfo.MetadataLanguage);
                     var remoteSearchResult = new RemoteSearchResult
                     {
                         Name = tvShow.Name,
@@ -169,7 +169,7 @@ namespace Jellyfin.Plugin.HappyMovie
             }
             else
             {
-                TMDbLib.Objects.TvShows.TvShow tvShow = client.GetTvShowAsync(tmdbId, language: searchInfo.MetadataLanguage).Result;
+                TMDbLib.Objects.TvShows.TvShow tvShow = await client.GetTvShowAsync(tmdbId, language: searchInfo.MetadataLanguage);
 
                 if (tvShow == null)
                 {

@@ -43,7 +43,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             TMDbClient client = Utils.GetTmdbClient();
 
-            TMDbLib.Objects.TvShows.TvShow tvShow = client.GetTvShowAsync(Convert.ToInt32(tmdbId, CultureInfo.InvariantCulture), language: item.PreferredMetadataLanguage, cancellationToken: cancellationToken).Result;
+            TMDbLib.Objects.TvShows.TvShow tvShow = await client.GetTvShowAsync(Convert.ToInt32(tmdbId, CultureInfo.InvariantCulture), language: item.PreferredMetadataLanguage, cancellationToken: cancellationToken);
 
             if (tvShow == null)
             {

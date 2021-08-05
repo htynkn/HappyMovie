@@ -42,7 +42,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             TMDbLib.Client.TMDbClient client = Utils.GetTmdbClient();
 
-            var seasonResult = client.GetTvSeasonAsync(seriesTmdbId, season.IndexNumber.Value, language: item.GetPreferredMetadataLanguage(), cancellationToken: cancellationToken).Result;
+            var seasonResult = await client.GetTvSeasonAsync(seriesTmdbId, season.IndexNumber.Value, language: item.GetPreferredMetadataLanguage(), cancellationToken: cancellationToken);
 
             var remoteImages = new List<RemoteImageInfo>();
 

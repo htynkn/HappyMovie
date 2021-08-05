@@ -41,8 +41,7 @@ namespace Jellyfin.Plugin.HappyMovie
             }
 
             TMDbLib.Client.TMDbClient client = Utils.GetTmdbClient();
-            var seasonResult = client.GetTvSeasonAsync(Convert.ToInt32(seriesTmdbId), seasonNumber.Value, language: info.MetadataLanguage, cancellationToken: cancellationToken).Result;
-
+            var seasonResult = await client.GetTvSeasonAsync(Convert.ToInt32(seriesTmdbId), seasonNumber.Value, language: info.MetadataLanguage, cancellationToken: cancellationToken);
 
             if (seasonResult == null)
             {

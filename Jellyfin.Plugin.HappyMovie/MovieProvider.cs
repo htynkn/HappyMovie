@@ -61,7 +61,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 var parsedName = _libraryManager.ParseName(info.Name);
 
-                SearchContainer<SearchMovie> movies = client.SearchMovieAsync(parsedName.Name, language: info.MetadataLanguage).Result;
+                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(parsedName.Name, language: info.MetadataLanguage);
 
                 if (movies.TotalPages > 0)
                 {
@@ -70,7 +70,7 @@ namespace Jellyfin.Plugin.HappyMovie
                 }
             }
 
-            TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId, language: info.MetadataLanguage).Result;
+            TMDbLib.Objects.Movies.Movie movie = await client.GetMovieAsync(tmdbId, language: info.MetadataLanguage);
 
             var m = new Movie
             {
@@ -123,11 +123,11 @@ namespace Jellyfin.Plugin.HappyMovie
 
             if (tmdbId == 0)
             {
-                SearchContainer<SearchMovie> movies = client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage).Result;
+                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage);
 
                 foreach (SearchMovie searchMovie in movies.Results)
                 {
-                    TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(searchMovie.Id, language: searchInfo.MetadataLanguage).Result;
+                    TMDbLib.Objects.Movies.Movie movie = await client.GetMovieAsync(searchMovie.Id, language: searchInfo.MetadataLanguage);
                     var remoteSearchResult = new RemoteSearchResult
                     {
                         Name = searchMovie.Title,
@@ -148,7 +148,7 @@ namespace Jellyfin.Plugin.HappyMovie
             }
             else
             {
-                TMDbLib.Objects.Movies.Movie movie = client.GetMovieAsync(tmdbId, language: searchInfo.MetadataLanguage).Result;
+                TMDbLib.Objects.Movies.Movie movie = await client.GetMovieAsync(tmdbId, language: searchInfo.MetadataLanguage);
 
                 if (movie == null)
                 {
