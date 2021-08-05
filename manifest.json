@@ -1,21 +1,29 @@
 [
-  {
-    "category": "Metadata",
-    "guid": "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
-    "name": "HappyMovie",
-    "description": "Get metadata from tmdb.",
-    "owner": "htynkn",
-    "overview": "Get metadata from tmdb.",
-    "imageURL": "https://raw.githubusercontent.com/htynkn/HappyMovie/master/Jellyfin.Plugin.HappyMovie/thumb.png",
-    "versions": [
-      {
-        "checksum": "bf17c3f19d3915d1214ce816f184647d",
-        "changelog": "init",
-        "targetAbi": "10.7.0.0",
-        "sourceUrl": "https://github.com/htynkn/HappyMovie/releases/download/1.0.0.0/happymovie_1.0.0.0.zip",
-        "timestamp": "2021-07-22T16:47:35Z",
-        "version": "1.0.0.0"
-      }
-    ]
-  }
+    {
+        "category": "Metadata",
+        "guid": "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
+        "name": "HappyMovie",
+        "description": "Get metadata from tmdb.",
+        "owner": "htynkn",
+        "overview": "Get metadata from tmdb.",
+        "imageURL": "https://raw.githubusercontent.com/htynkn/HappyMovie/master/Jellyfin.Plugin.HappyMovie/thumb.png",
+        "versions": [
+            {
+                "checksum": "982d45be7a1e6ae5df046d0351b001cb",
+                "changelog": "add support for tv",
+                "targetAbi": "10.7.0.0",
+                "sourceUrl": "https://github.com/htynkn/HappyMovie/releases/download/1.0.1.0/happymovie_1.0.1.0.zip",
+                "timestamp": "2021-08-05T11:30:07Z",
+                "version": "1.0.1.0"
+            },
+            {
+                "checksum": "bf17c3f19d3915d1214ce816f184647d",
+                "changelog": "init",
+                "targetAbi": "10.7.0.0",
+                "sourceUrl": "https://github.com/htynkn/HappyMovie/releases/download/1.0.0.0/happymovie_1.0.0.0.zip",
+                "timestamp": "2021-07-22T16:47:35Z",
+                "version": "1.0.0.0"
+            }
+        ]
+    }
 ]
