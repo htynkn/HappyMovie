@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Jellyfin.Plugin.HappyMovie.Configuration;
 using MediaBrowser.Common.Configuration;
+using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.TV;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Providers;
@@ -71,6 +72,7 @@ namespace Jellyfin.Plugin.HappyMovie
             }
 
             var tvShow = await client.GetTvShowAsync(Convert.ToInt32(tmdbId), language: info.MetadataLanguage);
+            var tvCredits = await client.GetTvShowCreditsAsync(Convert.ToInt32(tmdbId), language: info.MetadataLanguage);
 
             if (tvShow == null)
             {
@@ -116,6 +118,21 @@ namespace Jellyfin.Plugin.HappyMovie
                 Item = series,
                 ResultLanguage = info.MetadataLanguage ?? tvShow.OriginalLanguage
             };
+
+            if (tvCredits?.Cast != null)
+            {
+                var cast = tvCredits.Cast.OrderBy(c => c.Order).Take(Utils.MaxCastMembers).ToList();
+                for (var i = 0; i < cast.Count; i++)
+                {
+                    result.AddPerson(new PersonInfo
+                    {
+                        Name = cast[i].Name.Trim(),
+                        Role = cast[i].Character,
+                        Type = PersonType.Actor,
+                        SortOrder = cast[i].Order
+                    });
+                }
+            }
 
             result.HasMetadata = result.Item != null;
 
