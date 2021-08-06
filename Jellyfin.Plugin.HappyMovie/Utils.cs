@@ -10,7 +10,7 @@ namespace Jellyfin.Plugin.HappyMovie
     {
         public static string ProviderName => "HappyMovie";
 
-        public static string ImageUrlPrefix = "https://image.tmdb.org/t/p/w500";
+        public static string ImageUrlPrefix = "https://image.tmdb.org/t/p/original";
 
         public static string BaseTmdbUrl = "https://www.themoviedb.org/";
 

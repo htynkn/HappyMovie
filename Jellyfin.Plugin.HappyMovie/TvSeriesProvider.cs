@@ -124,13 +124,19 @@ namespace Jellyfin.Plugin.HappyMovie
                 var cast = tvCredits.Cast.OrderBy(c => c.Order).Take(Utils.MaxCastMembers).ToList();
                 for (var i = 0; i < cast.Count; i++)
                 {
-                    result.AddPerson(new PersonInfo
+                    var p = new PersonInfo
                     {
                         Name = cast[i].Name.Trim(),
                         Role = cast[i].Character,
                         Type = PersonType.Actor,
                         SortOrder = cast[i].Order
-                    });
+                    };
+
+                    if (!string.IsNullOrEmpty(cast[i].ProfilePath))
+                    {
+                        p.ImageUrl = $"{Utils.ImageUrlPrefix}{cast[i].ProfilePath}";
+                    }
+                    result.AddPerson(p);
                 }
             }
 
