@@ -77,6 +77,9 @@ namespace Jellyfin.Plugin.HappyMovie
             item.Name = episodeResult.Name;
             item.Overview = episodeResult.Overview;
 
+            item.PremiereDate = episodeResult.AirDate;
+            item.ProductionYear = episodeResult.AirDate?.Year;
+
             metadataResult.Item = item;
 
             return metadataResult;
