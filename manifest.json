@@ -9,6 +9,14 @@
         "imageURL": "https://raw.githubusercontent.com/htynkn/HappyMovie/master/Jellyfin.Plugin.HappyMovie/thumb.png",
         "versions": [
             {
+                "checksum": "992df98c2692cd34233b2f256b3fedd0",
+                "changelog": "fix image issue",
+                "targetAbi": "10.7.0.0",
+                "sourceUrl": "https://github.com/htynkn/HappyMovie/releases/download/1.0.1.1/happymovie_1.0.1.1.zip",
+                "timestamp": "2021-08-06T15:22:18Z",
+                "version": "1.0.1.1"
+            },
+            {
                 "checksum": "982d45be7a1e6ae5df046d0351b001cb",
                 "changelog": "add support for tv",
                 "targetAbi": "10.7.0.0",
