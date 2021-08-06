@@ -52,9 +52,16 @@ namespace Jellyfin.Plugin.HappyMovie
 
             remoteImages.Add(new RemoteImageInfo
             {
-                Url = $"{Utils.ImageUrlPrefix}{tvShow.BackdropPath}",
+                Url = $"{Utils.ImageUrlPrefix}{tvShow.PosterPath}",
                 ProviderName = Name,
                 Type = ImageType.Primary,
+            });
+
+            remoteImages.Add(new RemoteImageInfo
+            {
+                Url = $"{Utils.ImageUrlPrefix}{tvShow.BackdropPath}",
+                ProviderName = Name,
+                Type = ImageType.Backdrop,
             });
 
             return remoteImages;
