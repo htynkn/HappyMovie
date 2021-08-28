@@ -61,7 +61,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 var parsedName = _libraryManager.ParseName(info.Name);
 
-                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(parsedName.Name, language: info.MetadataLanguage);
+                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(parsedName.Name, language: info.MetadataLanguage, includeAdult: Utils.IncludeAdult());
 
                 if (movies.TotalPages > 0)
                 {
@@ -123,7 +123,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             if (tmdbId == 0)
             {
-                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage);
+                SearchContainer<SearchMovie> movies = await client.SearchMovieAsync(searchInfo.Name, language: searchInfo.MetadataLanguage, includeAdult: Utils.IncludeAdult());
 
                 foreach (SearchMovie searchMovie in movies.Results)
                 {

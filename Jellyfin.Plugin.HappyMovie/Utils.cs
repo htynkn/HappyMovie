@@ -42,6 +42,13 @@ namespace Jellyfin.Plugin.HappyMovie
             return client;
         }
 
+        public static bool IncludeAdult()
+        {
+            PluginConfiguration options = Plugin.Instance.Configuration;
+
+            return options.IncludeAdult;
+        }
+
         public static HttpClient GetHttpClient()
         {
             PluginConfiguration options = Plugin.Instance.Configuration;

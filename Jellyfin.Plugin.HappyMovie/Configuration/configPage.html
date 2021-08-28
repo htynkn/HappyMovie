@@ -1,123 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>HappyMovie</title>
-  </head>
 
-  <body>
-    <div
-      id="HappyMovieConfigPage"
-      data-role="page"
-      class="page type-interior pluginConfigurationPage"
-      data-require="emby-input,emby-button,emby-select,emby-checkbox"
-    >
-      <div data-role="content">
-        <div class="content-primary">
-          <form id="HappyMovieConfigForm">
-            <div class="inputContainer">
-              <label class="inputeLabel inputLabelUnfocused" for="ApiKey"
-                >Api Key</label
-              >
-              <input id="ApiKey" name="ApiKey" type="text" is="emby-input" />
-              <div class="fieldDescription">
-                Api key to access the movie db.
-              </div>
-            </div>
-            <div class="selectContainer">
-              <label class="selectLabel" for="Type">Several Options</label>
-              <select
-                is="emby-select"
-                id="Type"
-                name="Type"
-                class="emby-select-withcolor emby-select"
-              >
-                <option id="NON_PROXY" value="NON_PROXY">NON_PROXY</option>
-                <option id="HTTP" value="HTTP">HTTP</option>
-                <option id="SOCKS5" value="SOCKS5">SOCKS5</option>
-              </select>
+<head>
+  <meta charset="utf-8" />
+  <title>HappyMovie</title>
+</head>
 
-              <div class="fieldDescription">
-                Choose your proxy type, default is NONE_PROXY
-              </div>
+<body>
+  <div id="HappyMovieConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
+    data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div data-role="content">
+      <div class="content-primary">
+        <form id="HappyMovieConfigForm">
+          <div class="inputContainer">
+            <label class="inputeLabel inputLabelUnfocused" for="ApiKey">Api Key</label>
+            <input id="ApiKey" name="ApiKey" type="text" is="emby-input" />
+            <div class="fieldDescription">
+              Api key to access the movie db.
             </div>
-            <div class="inputContainer">
-              <label class="inputeLabel inputLabelUnfocused" for="ProxyHost"
-                >Proxy Host</label
-              >
-              <input
-                id="ProxyHost"
-                name="ProxyHost"
-                type="text"
-                is="emby-input"
-              />
-              <div class="fieldDescription">Proxy server host</div>
+          </div>
+          <div class="selectContainer">
+            <label class="selectLabel" for="Type">Several Options</label>
+            <select is="emby-select" id="Type" name="Type" class="emby-select-withcolor emby-select">
+              <option id="NON_PROXY" value="NON_PROXY">NON_PROXY</option>
+              <option id="HTTP" value="HTTP">HTTP</option>
+              <option id="SOCKS5" value="SOCKS5">SOCKS5</option>
+            </select>
+            <div class="fieldDescription">
+              Choose your proxy type, default is NONE_PROXY
             </div>
-            <div class="inputContainer">
-              <label class="inputeLabel inputLabelUnfocused" for="ProxyPort"
-                >Proxy Port</label
-              >
-              <input
-                id="ProxyPort"
-                name="ProxyPort"
-                type="text"
-                is="emby-input"
-              />
-              <div class="fieldDescription">Proxy server port</div>
+          </div>
+          <div class="inputContainer">
+            <label class="inputeLabel inputLabelUnfocused" for="ProxyHost">Proxy Host</label>
+            <input id="ProxyHost" name="ProxyHost" type="text" is="emby-input" />
+            <div class="fieldDescription">Proxy server host</div>
+          </div>
+          <div class="inputContainer">
+            <label class="inputeLabel inputLabelUnfocused" for="ProxyPort">Proxy Port</label>
+            <input id="ProxyPort" name="ProxyPort" type="text" is="emby-input" />
+            <div class="fieldDescription">Proxy server port</div>
+          </div>
+          <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+              <input is="emby-checkbox" type="checkbox" id="IncludeAdult" name="IncludeAdult" />
+              <span>Allow adult content?</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">
+              Check this if you want to allow adult content.
             </div>
-            <div>
-              <button
-                is="emby-button"
-                type="submit"
-                class="raised button-submit block emby-button"
-              >
-                <span>Save</span>
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div>
+            <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+              <span>Save</span>
+            </button>
+          </div>
+        </form>
       </div>
-      <script type="text/javascript">
-        var HappyMovieConfig = {
-          pluginUniqueId: "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
-        };
+    </div>
+    <script type="text/javascript">
+      var HappyMovieConfig = {
+        pluginUniqueId: "a3a07da4-ae5a-4d4a-a843-5aa7e3ba0a62",
+      };
 
-        document
-          .querySelector("#HappyMovieConfigPage")
-          .addEventListener("pageshow", function () {
-            Dashboard.showLoadingMsg();
-
-            ApiClient.getPluginConfiguration(
-              HappyMovieConfig.pluginUniqueId
-            ).then(function (config) {
-              document.querySelector("#ApiKey").value = config.ApiKey;
-              document.querySelector("#ProxyHost").value = config.ProxyHost;
-              document.querySelector("#ProxyPort").value = config.ProxyPort;
-              document.querySelector("#Type").value = config.Type;
-              Dashboard.hideLoadingMsg();
-            });
-          });
-
-        $("#HappyMovieConfigForm").on("submit", function () {
+      document
+        .querySelector("#HappyMovieConfigPage")
+        .addEventListener("pageshow", function () {
           Dashboard.showLoadingMsg();
 
           ApiClient.getPluginConfiguration(
             HappyMovieConfig.pluginUniqueId
           ).then(function (config) {
-            config.ApiKey = document.querySelector("#ApiKey").value;
-            config.ProxyHost = document.querySelector("#ProxyHost").value;
-            config.ProxyPort = document.querySelector("#ProxyPort").value;
-            config.Type = document.querySelector("#Type").value;
-
-            ApiClient.updatePluginConfiguration(
-              HappyMovieConfig.pluginUniqueId,
-              config
-            ).then(Dashboard.processPluginConfigurationUpdateResult);
+            document.querySelector("#ApiKey").value = config.ApiKey;
+            document.querySelector("#ProxyHost").value = config.ProxyHost;
+            document.querySelector("#ProxyPort").value = config.ProxyPort;
+            document.querySelector("#Type").value = config.Type;
+            Dashboard.hideLoadingMsg();
           });
-
-          return false;
         });
-      </script>
-    </div>
-  </body>
+
+      $("#HappyMovieConfigForm").on("submit", function () {
+        Dashboard.showLoadingMsg();
+
+        ApiClient.getPluginConfiguration(
+          HappyMovieConfig.pluginUniqueId
+        ).then(function (config) {
+          config.ApiKey = document.querySelector("#ApiKey").value;
+          config.ProxyHost = document.querySelector("#ProxyHost").value;
+          config.ProxyPort = document.querySelector("#ProxyPort").value;
+          config.Type = document.querySelector("#Type").value;
+
+          ApiClient.updatePluginConfiguration(
+            HappyMovieConfig.pluginUniqueId,
+            config
+          ).then(Dashboard.processPluginConfigurationUpdateResult);
+        });
+
+        return false;
+      });
+    </script>
+  </div>
+</body>
+
 </html>

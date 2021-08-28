@@ -62,7 +62,7 @@ namespace Jellyfin.Plugin.HappyMovie
             {
                 var parsedName = _libraryManager.ParseName(info.Name);
 
-                TMDbLib.Objects.General.SearchContainer<SearchTv> tvs = await client.SearchTvShowAsync(parsedName.Name, language: info.MetadataLanguage);
+                TMDbLib.Objects.General.SearchContainer<SearchTv> tvs = await client.SearchTvShowAsync(parsedName.Name, language: info.MetadataLanguage, includeAdult: Utils.IncludeAdult());
 
                 if (tvs.TotalPages > 0)
                 {
@@ -158,7 +158,7 @@ namespace Jellyfin.Plugin.HappyMovie
 
             if (tmdbId == 0)
             {
-                TMDbLib.Objects.General.SearchContainer<TMDbLib.Objects.Search.SearchTv> result = await client.SearchTvShowAsync(searchInfo.Name, language: searchInfo.MetadataLanguage);
+                TMDbLib.Objects.General.SearchContainer<TMDbLib.Objects.Search.SearchTv> result = await client.SearchTvShowAsync(searchInfo.Name, language: searchInfo.MetadataLanguage, includeAdult: Utils.IncludeAdult());
 
                 foreach (SearchTv searchTv in result.Results)
                 {
