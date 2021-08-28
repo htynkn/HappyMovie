@@ -9,6 +9,14 @@
         "imageURL": "https://raw.githubusercontent.com/htynkn/HappyMovie/master/Jellyfin.Plugin.HappyMovie/thumb.png",
         "versions": [
             {
+                "checksum": "b9160dda623b50757092aa8b1a2c2aba",
+                "changelog": "add adult content checkbox",
+                "targetAbi": "10.7.0.0",
+                "sourceUrl": "https://github.com/htynkn/HappyMovie/releases/download/1.0.1.2/happymovie_1.0.1.2.zip",
+                "timestamp": "2021-08-28T17:22:02Z",
+                "version": "1.0.1.2"
+            },
+            {
                 "checksum": "992df98c2692cd34233b2f256b3fedd0",
                 "changelog": "fix image issue",
                 "targetAbi": "10.7.0.0",
