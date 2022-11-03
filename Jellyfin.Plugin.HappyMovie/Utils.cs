@@ -38,8 +38,16 @@ namespace Jellyfin.Plugin.HappyMovie
                 Console.WriteLine("Unknown proxy type, will use directly connection");
             }
 
-            TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
-            return client;
+            if (proxyClient == null)
+            {
+                TMDbClient client = new TMDbClient(options.ApiKey);
+                return client;
+            }
+            else
+            {
+                TMDbClient client = new TMDbClient(options.ApiKey, proxy: proxyClient);
+                return client;
+            }
         }
 
         public static bool IncludeAdult()
