@@ -37,7 +37,7 @@ subprocess.run([
     "Release"
 ])
 
-shutil.copy("Jellyfin.Plugin.HappyMovie/bin/Release/net5.0/Jellyfin.Plugin.HappyMovie.dll", f"release/{version}/")
+shutil.copy("Jellyfin.Plugin.HappyMovie/bin/Release/net6.0/Jellyfin.Plugin.HappyMovie.dll", f"release/{version}/")
 shutil.copy(f"{Path.home()}/.nuget/packages/yove.proxy/1.1.1/lib/netstandard2.0/Yove.Proxy.dll", f"release/{version}/")
 
 shutil.make_archive(f"release/happymovie_{version}", "zip", f"release/{version}/")
