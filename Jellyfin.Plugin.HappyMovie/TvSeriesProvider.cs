@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Jellyfin.Data.Enums;
 using Jellyfin.Plugin.HappyMovie.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Controller.Entities;
@@ -128,7 +129,7 @@ namespace Jellyfin.Plugin.HappyMovie
                     {
                         Name = cast[i].Name.Trim(),
                         Role = cast[i].Character,
-                        Type = PersonType.Actor,
+                        Type = PersonKind.Actor,
                         SortOrder = cast[i].Order
                     };
 
