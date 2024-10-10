@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Jellyfin.Data.Enums;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.TV;
@@ -52,7 +53,8 @@ namespace Jellyfin.Plugin.HappyMovie
             result.Item = new Season
             {
                 IndexNumber = seasonNumber,
-                Overview = seasonResult.Overview
+                Overview = seasonResult.Overview,
+                Name = seasonResult.Name
             };
 
             if (!string.IsNullOrEmpty(seasonResult.ExternalIds?.TvdbId))
@@ -70,7 +72,7 @@ namespace Jellyfin.Plugin.HappyMovie
                     {
                         Name = cast[i].Name.Trim(),
                         Role = cast[i].Character,
-                        Type = PersonType.Actor,
+                        Type = PersonKind.Actor,
                         SortOrder = cast[i].Order
                     });
                 }

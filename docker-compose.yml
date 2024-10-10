@@ -2,9 +2,10 @@ version: "2"
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.4
+    image: jellyfin/jellyfin:10.9.11
     volumes:
       - ./videos:/media/videos
       - ./output/:/config/plugins/HappyMovie/
+      - ./release/:/var/lib/jellyfin/plugins/
     ports:
-      - 127.0.0.1:8896:8096
+      - 8896:8096
